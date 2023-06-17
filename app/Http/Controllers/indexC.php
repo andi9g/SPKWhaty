@@ -157,6 +157,8 @@ class indexC extends Controller
                 //---------------------------------------------
                 $kriteria = kriteriaM::orderBy('ket', 'DESC');
 
+
+
                 foreach ($kriteria->get() as $k) {
                     $idkriteria = $k->idkriteria;
                     $namakriteria = str_replace(" ", "", strtolower($k->namakriteria));
