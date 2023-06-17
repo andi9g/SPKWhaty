@@ -169,7 +169,11 @@ class indexC extends Controller
                         ${"dinamis_$namakriteria"} = 0;
                         foreach (${"urutnilai_$namakriteria"} as $item) {
                             // dd($perumahan_->$namakriteria);
-                            if(($perumahan_->$namakriteria > $item && ((int)$request->$namakriteria) >= $perumahan_->$namakriteria) && ${"dinamis_$namakriteria"} == 0) {
+                            // if(($perumahan_->$namakriteria > $item && ((int)$request->$namakriteria) >= $perumahan_->$namakriteria) && ${"dinamis_$namakriteria"} == 0) {
+                            //     ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
+                            //     ${"dinamis_$namakriteria"}++;
+                            // }
+                            if(($perumahan_->$namakriteria > $item && ((int)$request->$namakriteria) <= $perumahan_->$namakriteria) && ${"dinamis_$namakriteria"} == 0) {
                                 ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
                                 ${"dinamis_$namakriteria"}++;
                             }
