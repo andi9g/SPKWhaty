@@ -56,7 +56,7 @@ class Spk extends Migration
             '2000000', '3000000', '4000000','5000000'
         ];
         $merek = [
-            'HP', 'Lenovo', 'Asus', 'Dell', 'Acer'
+            'HP', 'Lenovo', 'Asus', 'Dell', 'Acer', 'Samsung', 'Axio', 'Toshiba',
         ];
         $memorylaptop = [
             '2GB','4GB','8GB','16GB'
