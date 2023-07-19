@@ -321,8 +321,9 @@ class indexC extends Controller
                             //     ${"dinamis_$namakriteria"}++;
                             // }
 
+                            dd($tinggi);
                             if(${"dinamis_$namakriteria"} == 0){
-                                dd($tinggi);
+
                                 if(((int)$request->$namakriteria) > $item) {
                                     if($laptop_->$namakriteria > $item && $laptop_->$namakriteria < $tinggi){
 
