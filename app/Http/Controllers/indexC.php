@@ -367,11 +367,11 @@ class indexC extends Controller
                             $dataToko[$index][$nkrit] = $laptop_->$nkrit;
                         }
                     }elseif($krit->ket == 'statis') {
-                        $ambilNilai1 = $laptop_->$nkrit;
-                        $coba[] = $request->$namakriteria;
-                        $coba2[] = $ambilNilai1;
+                        $ambilNilai1 = $request->$nkrit;
+                        // $coba[] = $request->$namakriteria;
+                        // $coba2[] = $ambilNilai1;
                         $nnilai = nilaiM::where('idnilai', $ambilNilai1)->first();
-                        // $dataToko[$index][$nkrit] = $nnilai->ket;
+                        $dataToko[$index][$nkrit] = $nnilai->ket;
                     }
 
 
@@ -381,7 +381,7 @@ class indexC extends Controller
                 }
                 // echo $coba;
                 // echo $coba2;
-                dd($coba);
+                // dd($coba);
 
 
                 $index++;
