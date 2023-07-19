@@ -368,7 +368,7 @@ class indexC extends Controller
                         }
                     }elseif($krit->ket == 'statis') {
                         $ambilNilai1 = $laptop_->$nkrit;
-                        $coba[] = $ambilNilai1;
+                        $coba[] = $request->$krit->namakriteria;
                         $nnilai = nilaiM::where('idnilai', $ambilNilai1)->first();
                         // $dataToko[$index][$nkrit] = $nnilai->ket;
                     }
