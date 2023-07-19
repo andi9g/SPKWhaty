@@ -311,7 +311,7 @@ class indexC extends Controller
                     $namakriteria = str_replace(" ", "", strtolower($k->namakriteria));
                     $typedata = $k->typedata;
                     $ket = $k->ket;
-
+                    dd($tinggi);
                     if($ket == 'dinamis') {
                         ${"dinamis_$namakriteria"} = 0;
                         foreach (${"urutnilai_$namakriteria"} as $item) {
@@ -321,7 +321,7 @@ class indexC extends Controller
                             //     ${"dinamis_$namakriteria"}++;
                             // }
 
-                            dd($tinggi);
+
                             if(${"dinamis_$namakriteria"} == 0){
 
                                 if(((int)$request->$namakriteria) > $item) {
