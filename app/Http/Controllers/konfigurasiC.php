@@ -45,7 +45,7 @@ class konfigurasiC extends Controller
                 $bobot = $bobot + $item->bobot;
             }
 
-            $bobot = (int)(($bobot + ($request->bobot / 100)) * 100);
+            $bobot = ($bobot + ($request->bobot / 100)) * 100;
 
             if($bobot > 100) {
                 return redirect()->back()->with('warning', 'Maaf pastikan bobot keseluruhan maksimal 100% <br> Total bobot <br> '.$bobot."%")->withInput();
