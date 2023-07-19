@@ -381,7 +381,7 @@ class indexC extends Controller
                 }
                 // echo $coba;
                 // echo $coba2;
-                dd($coba2);
+                dd($coba);
 
 
                 $index++;
