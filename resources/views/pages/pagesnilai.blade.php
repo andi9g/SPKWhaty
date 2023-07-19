@@ -71,8 +71,9 @@
                             </div>
                             <form action="{{ route('tambah.nilai', [$item->idkriteria]) }}" method="post">
                                 @csrf
-                                {{$item->typedata}}
+
                                 <div class="modal-body">
+                                    {{$item->typedata}}
                                     @if ($item->typedata == 'angka' || $item->typedata == 'kurensi')
                                     <div class="form-group">
                                         <label for="">Nama Penilaian</label>
