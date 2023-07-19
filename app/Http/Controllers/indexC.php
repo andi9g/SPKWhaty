@@ -339,9 +339,7 @@ class indexC extends Controller
                                 $tinggi = $item;
                             }
 
-                            if(($laptop_->$namakriteria > $item) && (((int)$request->$namakriteria) >= $laptop_->$namakriteria) && (${"dinamis_$namakriteria"} == 0)) {
 
-                            }
                         }
                         if(${"dinamis_$namakriteria"} === 0) {
                             ${$namakriteria}[] = 0;
