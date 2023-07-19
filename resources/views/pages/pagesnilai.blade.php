@@ -73,7 +73,7 @@
                                 @csrf
 
                                 <div class="modal-body">
-                                    {{$item->typedata}}
+                                    {{-- {{$item->typedata}} --}}
                                     @if ($item->typedata == 'angka' || $item->typedata == 'kurensi')
                                     <div class="form-group">
                                         <label for="">Nama Penilaian</label>
@@ -170,7 +170,7 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                             </div>
-
+                                                {{$item->namakriteria}}
                                                 @if (!($item->namakriteria=='Spesifikasi Rumah' || $item->namakriteria=='Kepadatan Penduduk'))
                                                     @php
                                                         $type = 'number';
