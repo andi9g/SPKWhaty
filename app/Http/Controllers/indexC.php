@@ -370,7 +370,7 @@ class indexC extends Controller
                         $ambilNilai1 = $laptop_->$nkrit;
                         $coba[] = $ambilNilai1;
                         $nnilai = nilaiM::where('idnilai', $ambilNilai1)->first();
-                        $dataToko[$index][$nkrit] = $nnilai->ket;
+                        // $dataToko[$index][$nkrit] = $nnilai->ket;
                     }
 
 
