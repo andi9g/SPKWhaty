@@ -322,7 +322,7 @@ class indexC extends Controller
                             // }
                             if(${"dinamis_$namakriteria"} == 0){
 
-                                if(((int)$request->$namakriteria) > $item) {
+                                if(((int)$request->$namakriteria) >= $item) {
                                     if($laptop_->$namakriteria > $item){
                                         ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
                                         ${"dinamis_$namakriteria"}++;
