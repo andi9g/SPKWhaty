@@ -358,7 +358,7 @@ class indexC extends Controller
                 $dataToko[$index]['laptop'] = $laptop_->namalaptop;
                 $dataToko[$index]['gambarLaptop'] = $laptop_->gambar;
                 foreach ($kriteria->get() as $krit) {
-                    $namakriteria = str_replace(" ", "", strtolower($krit->namakriteria));
+                    // $namakriteria = str_replace(" ", "", strtolower($krit->namakriteria));
                     $nkrit = str_replace(" ", "", strtolower($krit->namakriteria));
                     if ($krit->ket=='dinamis') {
                         if ($krit->typedata=='kurensi') {
@@ -369,6 +369,7 @@ class indexC extends Controller
                     }elseif($krit->ket == 'statis') {
                         $ambilNilai1 = $laptop_->$nkrit;
                         $coba[] = $request->$namakriteria;
+                        $coba2[] = $ambilNilai1;
                         $nnilai = nilaiM::where('idnilai', $ambilNilai1)->first();
                         // $dataToko[$index][$nkrit] = $nnilai->ket;
                     }
@@ -378,7 +379,8 @@ class indexC extends Controller
                     // dd($ambilNilai1);
 
                 }
-
+                echo $coba;
+                echo $coba2;
                 dd($coba);
 
 
