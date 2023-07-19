@@ -305,7 +305,7 @@ class indexC extends Controller
                 $kriteria = kriteriaM::orderBy('ket', 'DESC');
 
 
-
+                $tinggi = 30000000;
                 foreach ($kriteria->get() as $k) {
                     $idkriteria = $k->idkriteria;
                     $namakriteria = str_replace(" ", "", strtolower($k->namakriteria));
@@ -322,8 +322,8 @@ class indexC extends Controller
                             // }
                             if(${"dinamis_$namakriteria"} == 0){
 
-                                if(((int)$request->$namakriteria) >= $item) {
-                                    if($laptop_->$namakriteria > $item){
+                                if(((int)$request->$namakriteria) > $item) {
+                                    if($laptop_->$namakriteria > $item && $laptop_->$namakriteria < $tinggi){
                                         ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
                                         ${"dinamis_$namakriteria"}++;
                                     }else{
@@ -334,7 +334,8 @@ class indexC extends Controller
                                     ${$namakriteria}[] =  0;
                                         ${"dinamis_$namakriteria"}++;
                                 }
-                                // dd($item);
+
+                                $tinggi = $item;
                             }
 
                             if(($laptop_->$namakriteria > $item) && (((int)$request->$namakriteria) >= $laptop_->$namakriteria) && (${"dinamis_$namakriteria"} == 0)) {
