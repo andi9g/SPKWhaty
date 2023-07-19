@@ -379,8 +379,8 @@ class indexC extends Controller
                     // dd($ambilNilai1);
 
                 }
-                echo $coba;
-                echo $coba2;
+                // echo $coba;
+                // echo $coba2;
                 dd($coba);
 
 
