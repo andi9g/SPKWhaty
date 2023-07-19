@@ -140,7 +140,7 @@ class instansiC extends Controller
 
 
         // try{
-            $fifileName = perumahanM::where('idlaptop', $idlaptop)->first()->gambar;
+            $fileName = perumahanM::where('idlaptop', $idlaptop)->first()->gambar;
             if ($request->hasFile('gambar')) {
                 $file = $request->file('gambar');
                 $originName = $file->getClientOriginalName();
