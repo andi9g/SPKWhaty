@@ -170,8 +170,8 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                             </div>
-                                                {{$item->typedata}}
-                                                @if (!($item->namakriteria=='Spesifikasi Rumah' || $item->namakriteria=='Kepadatan Penduduk'))
+                                                {{-- {{$item->typedata}} --}}
+                                                @if ($item->typedata != "huruf")
                                                     @php
                                                         $type = 'number';
 
