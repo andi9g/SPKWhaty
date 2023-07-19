@@ -20,6 +20,7 @@ Route::get('/', 'indexC@root');
 Route::get('/welcome', 'indexC@index');
 Route::get('/proses_kembali', 'indexC@indexkembali')->name('back.welcome');
 Route::post('/welcome', 'indexC@cari')->name('cari.data');
+// Route::post('/welcome', 'indexC@cari2')->name('cari.data');
 Route::get('/cetak/laporan', 'indexC@cetak')->name('cetak.laporan');
 
 

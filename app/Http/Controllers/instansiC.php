@@ -46,6 +46,7 @@ class instansiC extends Controller
 
 
         $laptop = perumahanM::join('toko', 'toko.idtoko', '=', 'laptop.idtoko')
+        ->select('laptop.*')
         ->where('laptop.idtoko', $idtoko)->get();
 
 
@@ -70,6 +71,7 @@ class instansiC extends Controller
         $validateku = [];
         $request->validate([
             "namalaptop" => 'required',
+            "gambar" => 'required',
         ]);
 
         foreach ($kriteria as $k) {
@@ -79,11 +81,31 @@ class instansiC extends Controller
                 "$namakriteria" => 'required',
             ]);
         }
-        try{
+
+        // try{
+           if ($request->hasFile('gambar')) {
+               $file = $request->file('gambar');
+               $originName = $file->getClientOriginalName();
+               $fileName = pathinfo($originName, PATHINFO_FILENAME);
+               $extension = $file->getClientOriginalExtension();
+
+               $format = strtolower($extension);
+               if($format == 'jpg' || $format == 'jpeg' || $format == 'png') {
+                   $fileName = $fileName.'_'.time().'.'.$extension;
+                   $upload = $file->move(\base_path() .'/public/gambar/laptop', $fileName);
+               }else {
+                   $fileName= null;
+               }
+
+           }else {
+               $fileName= null;
+           }
+
             $namalaptop = $request->namalaptop;
             $store = new perumahanM;
             $store->idtoko = $idtoko;
             $store->namalaptop = $namalaptop;
+            $store->gambar = $fileName;
             foreach ($kriteria as $k) {
                 $namakriteria = str_replace(" ", "", strtolower($k->namakriteria));
                 $store->$namakriteria = $request->$namakriteria;
@@ -94,9 +116,9 @@ class instansiC extends Controller
                 return redirect()->back()->with('toast_success', 'success');
             }
 
-        }catch(\Throwable $th){
-            return redirect()->back()->with('toast_error', 'Terjadi kesalahan');
-        }
+        // }catch(\Throwable $th){
+        //     return redirect()->back()->with('toast_error', 'Terjadi kesalahan');
+        // }
     }
 
     public function ubahlaptop(Request $request, $idlaptop)
@@ -117,11 +139,27 @@ class instansiC extends Controller
 
 
 
-        try{
+        // try{
+            $fifileName = perumahanM::where('idlaptop', $idlaptop)->first()->gambar;
+            if ($request->hasFile('gambar')) {
+                $file = $request->file('gambar');
+                $originName = $file->getClientOriginalName();
+                $fileName = pathinfo($originName, PATHINFO_FILENAME);
+                $extension = $file->getClientOriginalExtension();
+
+                $format = strtolower($extension);
+                if($format == 'jpg' || $format == 'jpeg' || $format == 'png') {
+                    $fileName = $fileName.'_'.time().'.'.$extension;
+                    $upload = $file->move(\base_path() .'/public/gambar/laptop', $fileName);
+                }
+            }
+
+
             $namalaptop = $request->namalaptop;
 
             $update = perumahanM::where('idlaptop', $idlaptop)->update([
                 "namalaptop" => $namalaptop,
+                "gambar" => $fileName,
             ]);
 
             foreach ($kriteria as $k) {
@@ -134,9 +172,9 @@ class instansiC extends Controller
 
             return redirect()->back()->with('toast_success', 'success');
 
-        }catch(\Throwable $th){
-            return redirect()->back()->with('toast_error', 'Terjadi kesalahan');
-        }
+        // }catch(\Throwable $th){
+        //     return redirect()->back()->with('toast_error', 'Terjadi kesalahan');
+        // }
     }
 
     public function hapuslaptop(Request $request, $idlaptop)
@@ -269,7 +307,7 @@ class instansiC extends Controller
                 $format = strtolower($extension);
                 if($format == 'jpg' || $format == 'jpeg' || $format == 'png') {
                     $fileName = $fileName.'_'.time().'.'.$extension;
-                    $upload = $request->file('gambar')->move(\base_path() ."/public/gambar/toko", $fileName);
+                    $upload = $request->file('gambar')->move(\base_path() ."/public/gambar/gambar", $fileName);
                     $update = instansiM::where('idtoko', $idtoko)->update([
                         'namatoko' => $namatoko,
                         'alamat' => $alamat,

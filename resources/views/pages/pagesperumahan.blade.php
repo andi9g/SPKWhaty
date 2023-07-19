@@ -28,12 +28,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
-                    <form action="{{ route('tambah.laptop', [$idtoko]) }}" method="post">
+                    <form action="{{ route('tambah.laptop', [$idtoko]) }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="">Nama Laptop</label>
                                 <input type="text" name="namalaptop" id="" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Gambar</label>
+                                <input type="file" name="gambar" id="" class="form-control">
                             </div>
 
                             @foreach ($kriteria as $k)
@@ -96,6 +101,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Gambar</th>
                         <th>Nama Laptop</th>
                         @foreach ($kriteria as $item)
                         <th>{{$item->namakriteria}}</th>
@@ -108,6 +114,9 @@
                     @foreach ($laptop as $item)
                     <tr>
                         <td>{{$loop->iteration}}</td>
+                        <td>
+                            <img src="{{ url('/gambar/laptop', [$item->gambar]) }}" width="100px" alt="">
+                        </td>
                         <td nowrap class="text-bold">{{$item->namalaptop}}</td>
                         @foreach ($kriteria as $k)
                             @php
@@ -154,13 +163,18 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                 </div>
-                                <form action="{{ route('ubah.laptop', [$item->idlaptop]) }}" method="post">
+                                <form action="{{ route('ubah.laptop', [$item->idlaptop]) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="">Nama Laptop</label>
                                             <input type="text" name="namalaptop" value="{{$item->namalaptop}}" id="" class="form-control">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="">Pilih Gambar Laptop</label>
+                                            <input type="file" name="gambar" id="" class="form-control">
                                         </div>
 
                                         @foreach ($kriteria as $k)

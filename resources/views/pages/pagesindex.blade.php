@@ -130,7 +130,7 @@
                                 @foreach ($toko as $item)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td align="center"><img src="{{ url('gambar/toko', [$item->gambar]) }}" width="60px" alt=""></td>
+                                    <td align="center"><img src="{{ url('gambar/gambar', [$item->gambar]) }}" width="60px" alt=""></td>
                                     <td>{{$item->namatoko}}</td>
                                     <td>{{$item->alamat}}</td>
                                     <td>{{$item->hp}}</td>
@@ -681,6 +681,7 @@
                                             <td>&nbsp;:&nbsp;</td>
                                             <td><a href="{{$hasilUrut[$i]['links']}}" class="links-primary" target="_blank">Google Map</a></td></td>
                                         </tr>
+                                        <tr></tr>
 
                                         {{-- <tr>
                                             <td>Nilai Ranking</td>
@@ -733,6 +734,10 @@
                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                         <div class="modal-body">
+                                            <div class="text-center d-block">
+                                                <img src="{{ url('gambar/laptop', [$hasilPengurutan[$i]['gambarLaptop']]) }}" width="40%" alt="">
+                                            </div>
+
                                             @php
                                                 $kriteria = DB::table('kriteria')->get();
                                             @endphp

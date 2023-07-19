@@ -109,6 +109,7 @@ class Spk extends Migration
             $table->bigIncrements('idlaptop');
             $table->Integer('idtoko');
             $table->String('namalaptop');
+            $table->String('gambar');
             $table->timestamps();
         });
 

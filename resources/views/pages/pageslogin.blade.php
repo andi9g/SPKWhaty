@@ -35,7 +35,7 @@
                                     @enderror" name="password" id="password" placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <select name="posisi" class="form-control form-control-lg text-dark" id="posisi" style="background-color: rgb(226, 226, 226)" onchange="pilih(this)" onload="pilih(this)">
+                                    <select name="posisi" hidden class="form-control form-control-lg text-dark" id="posisi" style="background-color: rgb(226, 226, 226)" onchange="pilih(this)" onload="pilih(this)">
                                         {{-- <option value="">Pilih Posisi</option> --}}
                                         {{-- <option value="pengunjung">PENGUNJUNG</option> --}}
                                         <option value="admin">ADMIN</option>

@@ -35,8 +35,8 @@ class konfigurasiC extends Controller
             'typedata' => 'required',
             'ket' => 'required',
         ]);
-        
-        
+
+
         try{
             $kriteria = kriteriaM::get();
 
@@ -55,7 +55,7 @@ class konfigurasiC extends Controller
             $bobot = $request->bobot / 100;
             $typedata = $request->typedata;
             $ket = $request->ket;
-        
+
             $store = new kriteriaM;
             $store->namakriteria = $namakriteria;
             $store->bobot = $bobot;
@@ -65,7 +65,7 @@ class konfigurasiC extends Controller
             $store->save();
             if($store) {
                 $nama_k = str_replace(" ", "", strtolower($namakriteria));
-                DB::statement("ALTER TABLE perumahan ADD $nama_k bigint");
+                DB::statement("ALTER TABLE laptop ADD $nama_k bigint");
 
                 return redirect('kriteria')->with('toast_success', 'success');
             }
@@ -77,14 +77,14 @@ class konfigurasiC extends Controller
     public function ubahkriteria(Request $request, $idkriteria)
     {
         $request->validate([
-            'bobot' => 'required', 
+            'bobot' => 'required',
         ]);
-        
-        
+
+
         try{
             $kriteria = kriteriaM::where('idkriteria', '!=', $idkriteria)->get();
 
-            
+
             $bobot = 0;
             foreach ($kriteria as $item) {
                 $bobot = $bobot + $item->bobot;
@@ -97,7 +97,7 @@ class konfigurasiC extends Controller
             }
 
             $bobot = $request->bobot / 100;
-        
+
             $update = kriteriaM::where('idkriteria', $idkriteria)->update([
                 'bobot' => $bobot,
                 'satuan' => $request->satuan,
@@ -119,7 +119,7 @@ class konfigurasiC extends Controller
             $nama_k = str_replace(" ", "", strtolower($namakriteria));
             $destroy = kriteriaM::where('idkriteria', $idkriteria)->delete();
             if($destroy) {
-                DB::statement("ALTER TABLE perumahan DROP COLUMN $nama_k");
+                DB::statement("ALTER TABLE laptop DROP COLUMN $nama_k");
                 return redirect('kriteria')->with('toast_success', 'success');
             }
         }catch(\Throwable $th){
@@ -128,12 +128,12 @@ class konfigurasiC extends Controller
     }
 
 
-    
+
     public function nilai(Request $request)
     {
         $kriteria = kriteriaM::get();
 
-        
+
         return view('pages.pagesnilai', [
             'kriteria' => $kriteria,
         ]);
@@ -146,12 +146,12 @@ class konfigurasiC extends Controller
             'ket' => 'required',
             'nilai' => 'required',
         ]);
-        
-        
+
+
         try{
             $ket = $request->ket;
             $nilai = $request->nilai;
-        
+
             $store = new nilaiM;
             $store->idkriteria = $idkriteria;
             $store->ket = $ket;
@@ -172,7 +172,7 @@ class konfigurasiC extends Controller
             $nilai = nilaiM::where('idnilai', $idnilai)->first();
             $idkriteria = $nilai->idkriteria;
             $idnilai = $nilai->idnilai;
-            
+
             $kriteria = kriteriaM::where('idkriteria', $idkriteria)->select('namakriteria', 'ket')->first();
             $namakriteria = str_replace(" ", "", strtolower($kriteria->namakriteria));
             $ket = $kriteria->ket;
@@ -180,7 +180,7 @@ class konfigurasiC extends Controller
             $destroy = nilaiM::where('idnilai', $idnilai)->delete();
             if($destroy) {
                 if ($ket == 'statis') {
-                    $perumahan = perumahanM::where("$namakriteria", $idnilai)->update([
+                    $laptop = perumahanM::where("$namakriteria", $idnilai)->update([
                         $namakriteria => null,
                     ]);
                 }
@@ -196,15 +196,15 @@ class konfigurasiC extends Controller
     public function ubahnilai(Request $request, $idnilai)
     {
         $request->validate([
-            'ket' => 'required', 
-            'nilai' => 'required', 
+            'ket' => 'required',
+            'nilai' => 'required',
         ]);
-        
-        
+
+
         try{
             $ket = $request->ket;
             $nilai = $request->nilai;
-        
+
             $update = nilaiM::where('idnilai', $idnilai)->update([
                 'ket' => $ket,
                 'nilai' => $nilai,

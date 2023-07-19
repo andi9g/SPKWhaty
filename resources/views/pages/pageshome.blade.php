@@ -17,7 +17,7 @@
             <div class="inner">
               <h3>{{$instansi}}</h3>
 
-              <p>Data Instansi</p>
+              <p>Data Toko Laptop</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
@@ -31,8 +31,8 @@
             <div class="small-box bg-secondary">
               <div class="inner">
                 <h3>{{$perumahan}}</h3>
-  
-                <p>Data Perumahan</p>
+
+                <p>Data Laptop</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -46,7 +46,7 @@
             <div class="small-box bg-secondary">
               <div class="inner">
                 <h3>{{$admin}}</h3>
-  
+
                 <p>Data Admin</p>
               </div>
               <div class="icon">
@@ -61,7 +61,7 @@
             <div class="small-box bg-secondary">
               <div class="inner">
                 <h3>{{$pengunjung}}</h3>
-  
+
                 <p>Data Pengunjung</p>
               </div>
               <div class="icon">

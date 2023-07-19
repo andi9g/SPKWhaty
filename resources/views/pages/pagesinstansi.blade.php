@@ -86,7 +86,7 @@
                         <th>Alamat</th>
                         <th>Link</th>
                         <th>No HP</th>
-                        <th>Jml.P</th>
+                        <th>J.Laptop</th>
                         <th>laptop</th>
                         <th>Aksi</th>
                     </tr>
@@ -97,7 +97,7 @@
                     <tr>
                         <td>{{$loop->iteration + $toko->firstItem() - 1}}</td>
                         <td class="text-bold text-center">
-                            <img src="{{ url('gambar', $item->gambar) }}" width="70px" alt="">
+                            <img src="{{ url('gambar/gambar', $item->gambar) }}" width="70px" alt="">
                         </td>
                         <td class="text-bold">{{$item->namatoko}}</td>
                         <td>{{$item->alamat}}</td>
