@@ -320,11 +320,12 @@ class indexC extends Controller
                             //     ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
                             //     ${"dinamis_$namakriteria"}++;
                             // }
-                            if(${"dinamis_$namakriteria"} == 0){
 
+                            if(${"dinamis_$namakriteria"} == 0){
+                                dd($tinggi);
                                 if(((int)$request->$namakriteria) > $item) {
                                     if($laptop_->$namakriteria > $item && $laptop_->$namakriteria < $tinggi){
-                                        dd($tinggi);
+
                                         ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
                                         ${"dinamis_$namakriteria"}++;
                                     }else{
