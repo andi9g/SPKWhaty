@@ -358,7 +358,7 @@ class indexC extends Controller
                 $dataToko[$index]['laptop'] = $laptop_->namalaptop;
                 $dataToko[$index]['gambarLaptop'] = $laptop_->gambar;
                 foreach ($kriteria->get() as $krit) {
-                    // $namakriteria = str_replace(" ", "", strtolower($krit->namakriteria));
+                    $namakriteria = str_replace(" ", "", strtolower($krit->namakriteria));
                     $nkrit = str_replace(" ", "", strtolower($krit->namakriteria));
                     if ($krit->ket=='dinamis') {
                         if ($krit->typedata=='kurensi') {
