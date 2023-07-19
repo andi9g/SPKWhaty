@@ -328,7 +328,7 @@ class indexC extends Controller
                                         ${"dinamis_$namakriteria"}++;
                                     }
                                 }elseif(((int)$request->$namakriteria) < $item && $laptop_->$namakriteria > $item){
-                                    ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
+                                    ${$namakriteria}[] =  0;
                                         ${"dinamis_$namakriteria"}++;
                                 }
                                 // dd($item);
