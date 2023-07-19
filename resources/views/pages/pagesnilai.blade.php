@@ -15,7 +15,7 @@
         <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal">
             Launch demo modal
         </button>
-        
+
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -45,7 +45,7 @@
                   <button class="btn btn-outline-success" type="submit" id="button-addon2">Cari</button>
                 </div>
             </div>
-            
+
         </form>
     </div> --}}
 </div>
@@ -71,6 +71,7 @@
                             </div>
                             <form action="{{ route('tambah.nilai', [$item->idkriteria]) }}" method="post">
                                 @csrf
+                                {{$item->typedata}}
                                 <div class="modal-body">
                                     @if ($item->typedata == 'angka' || $item->typedata == 'kurensi')
                                     <div class="form-group">
@@ -83,7 +84,7 @@
                                         <input type="text" name="ket" id="" class="form-control" placeholder="Nama penilaian">
                                     </div>
                                     @endif
-                                    
+
                                     <div class="form-group">
                                         <label for="">Nilai</label>
                                         <input type="number" name="nilai" id="" class="form-control" placeholder="masukan nilai">
@@ -105,10 +106,10 @@
                         $datanilai = DB::table('nilai')->where('idkriteria', $item->idkriteria)
                                  ->orderBy('nilai', 'ASC');
                         $datanilaikeseluruhan = $datanilai->get();
-                    @endphp   
+                    @endphp
 
 
-                    
+
                     <table class="table table-sm table-striped table-bordered">
                         <thead>
                             <tr>
@@ -145,7 +146,7 @@
                                         <button type="button" class="btn btn-primary btn-xs d-inline" data-toggle="modal" data-target="#edit{{$nilai->idnilai}}">
                                           <i class="fa fa-edit d-inline"></i> Edit
                                         </button>
-                                        
+
                                         <form action="{{ route('hapus.nilai', [$nilai->idnilai]) }}" method="post" class="d-inline">
                                             @csrf
                                             @method('DELETE')
@@ -153,7 +154,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </form>
-                                        
+
                                     </td>
                                 </tr>
 
@@ -168,21 +169,21 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                             </div>
-                                            
+
                                                 @if (!($item->namakriteria=='Spesifikasi Rumah' || $item->namakriteria=='Kepadatan Penduduk'))
                                                     @php
                                                         $type = 'number';
-                                                    
+
                                                     @endphp
                                                 @else
                                                     @php
                                                         $type = 'text';
-                                                        
+
                                                     @endphp
                                                 @endif
                                             <form action="{{ route('ubah.nilai', [$nilai->idnilai]) }}" method="post">
                                                 @csrf
-                                            
+
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="">Nama Penilaian</label>
@@ -207,7 +208,7 @@
                 </div>
             </div>
         </div>
-        
+
     @endforeach
 
 
