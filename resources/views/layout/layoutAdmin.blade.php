@@ -117,10 +117,10 @@
             </a>
           </li>
           <li class="nav-item hoverku">
-            <a href="{{ url('pengunjung', []) }}" class="nav-link @yield('activekupengunjung')">
+            <a href="{{ url('satuan', []) }}" class="nav-link @yield('activekusatuan')">
               <i class="nav-icon fa fa-users"></i>
               <p>
-                Data Pengunjung
+                Data Satuan
               </p>
             </a>
           </li>

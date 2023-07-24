@@ -126,7 +126,8 @@
                                 ->where('laptop.idlaptop', $item->idlaptop);
                             @endphp
                             @if ($k->ket == 'dinamis')
-                                <td>{{$item->$cek}}</td>
+                                <td>{{$item->$cek}} {{$k->satuan}}</td>
+                                {{-- <td>{{$dataperumahan->first()->ket}}</td> --}}
                             @elseif($k->ket == 'statis')
                                 @if ($dataperumahan->count() == 1)
                                     <td>{{$dataperumahan->first()->ket}}</td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\kriteriaM;
 use App\Models\perumahanM;
 use App\Models\nilaiM;
+use App\Models\satuanM;
 use DB;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,7 @@ class konfigurasiC extends Controller
 {
     public function kriteria(Request $request)
     {
+        $satuan = satuanM::get();
         $kriteria = kriteriaM::get();
 
         $bobot = 0;
@@ -24,6 +26,7 @@ class konfigurasiC extends Controller
         return view('pages.pageskriteria', [
             'kriteria' => $kriteria,
             'bobot' => $bobot,
+            'satuan' => $satuan,
         ]);
     }
 

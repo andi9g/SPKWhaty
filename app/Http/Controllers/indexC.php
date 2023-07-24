@@ -95,8 +95,8 @@ class indexC extends Controller
             $arrLaptop = [];
             foreach ($dataLaptop as $laptop) {
                 $dataKriteria = Kriteria::get();
-
                 $matriks = [];
+                $header = [];
                 foreach ($dataKriteria as $kriteria) {
                     $namakriteria = str_replace(" ","", strtolower($kriteria->namakriteria));
                     $bobot = $kriteria->bobot;
@@ -106,28 +106,52 @@ class indexC extends Controller
 
 
                     if($kriteria->ket == 'dinamis') {
-                        $dataSubkriteria = Subkriteria::where('idkriteria', $kriteria->idkriteria)->orderBy('ket', 'desc')->get();
+                        $subkriteria = Subkriteria::where('idkriteria', $kriteria->idkriteria)->orderBy('ket', 'desc')->get();
+                        $dataSubkriteria = [];
+                        foreach ($subkriteria as $sk) {
+                            $dataSubkriteria[] = [
+                                'ket' => (int)$sk->ket,
+                                'nilai' => (int)$sk->nilai,
+                            ];
+                        }
+                        rsort($dataSubkriteria);
+                        // dd($dataSubkriteria);
+                        if($kriteria->typedata === 'kurensi'){
+                            foreach ($dataSubkriteria as $sub) {
+                                $ket = (int)$sub['ket'];
+                                $cari = (int) $request->$namakriteria;
+                                $ketLaptop = (int) $laptop->$namakriteria;
 
-                        $hargaTerendah = (int) Subkriteria::where('idkriteria', $kriteria->idkriteria)->orderBy('ket', 'asc')->first()->ket;
-                        $hargaTertinggi = (int) Subkriteria::where('idkriteria', $kriteria->idkriteria)->orderBy('ket', 'desc')->first()->ket;
-
-
-
-                        foreach ($dataSubkriteria as $subkriteria) {
-                            $harga = (int)$subkriteria->ket;
-                            $cari = (int) $request->$namakriteria;
-                            $hargaLaptop = (int) $laptop->$namakriteria;
-
-                            // $coba[] = ($hargaLaptop > $harga);
-                            if($nilai == 0) {
-                                // $coba[] =(($cari > $harga || $cari < $tinggi). " ". (($hargaLaptop > $harga) && ($hargaLaptop <= $tinggi)). " ". $tinggi);
-                                if($cari > $harga){
-                                    if($hargaLaptop > $harga) {
-                                        $nilai = $subkriteria->nilai;
+                                if($cari >= $ket) {
+                                    if($ketLaptop >= $ket && $ketLaptop < $tinggi) {
+                                        $nilai = $sub['nilai'];
                                     }
                                 }
+
+                                $tinggi = $ket;
+
+                            }
+
+                        }elseif($kriteria->typedata === 'angka'){
+                            foreach ($dataSubkriteria as $sub) {
+                                $ket = (int)$sub['ket'];
+                                $cari = (int) $request->$namakriteria;
+                                $ketLaptop = (int) $laptop->$namakriteria;
+
+                                if($cari >= $ket) {
+                                    if($ketLaptop >= $ket && $ketLaptop < $tinggi && ($ketLaptop <= $cari)) {
+                                        $nilai = $sub['nilai'];
+                                    }
+                                }
+
+                                $tinggi = $ket;
+
                             }
                         }
+
+                        // $tinggi = $
+
+
 
 
 
@@ -144,77 +168,59 @@ class indexC extends Controller
                         }
                     }
 
-                    $matriks[$namakriteria] = $nilai;
-
+                    $header[] = $namakriteria;
+                    $matriks[] = $nilai;
+                    ${$namakriteria}[] = $nilai;
 
                 }
 
+
+
+
+
                 $arrLaptop[] = [
                     'namalaptop' => $laptop->namalaptop,
+                    'header' => $header,
                     'matriks' => $matriks,
                 ];
 
             }
-            // dd($coba);
-            // dd($arrLaptop);
+
+            $nmax = [];
+            $nmin = [];
+            $selisih = [];
             foreach ($dataKriteria as $kriteria) {
                 $namakriteria = str_replace(" ","", strtolower($kriteria->namakriteria));
+                $nmax[] = max(${$namakriteria});
+                $nmin[] = min(${$namakriteria});
+                $selisih[] = (max(${$namakriteria})) - (min(${$namakriteria}));
                 ${$namakriteria} = [];
-                ${'min'.$namakriteria} = 0;
-                ${'max'.$namakriteria} = 0;
-                ${'selisih'.$namakriteria} = 0;
             }
 
-            foreach ($arrLaptop as $nilai) {
-                $data[0]['namalaptop'][] = $nilai['namalaptop'];
-                foreach ($dataKriteria as $kriteria) {
-                    $namakriteria = str_replace(" ","", strtolower($kriteria->namakriteria));
-                    $data[0][$namakriteria]['matriks'][] = $nilai['matriks'][$namakriteria];
-                }
-            }
-            // dd($data);
-            foreach ($dataKriteria as $kriteria) {
-                $namakriteria = str_replace(" ","", strtolower($kriteria->namakriteria));
-                foreach ($data as $dt) {
-
-                    ${'min'.$namakriteria} = min($dt[$namakriteria]['matriks']);
-                    ${'max'.$namakriteria} = max($dt[$namakriteria]['matriks']);
-
-
-                    ${'selisih'.$namakriteria} = ${'max'.$namakriteria} - ${'min'.$namakriteria};
-                    $data[0][$namakriteria]['min'] = ${'min'.$namakriteria};
-                    $data[0][$namakriteria]['max'] = ${'max'.$namakriteria};
-                    $data[0][$namakriteria]['selisih'] = ${'selisih'.$namakriteria};
-                }
-            }
-
-
-            foreach ($dataKriteria as $kriteria) {
-                $namakriteria = str_replace(" ","", strtolower($kriteria->namakriteria));
-                foreach ($data as $dt) {
-                    // dd($dt[$namakriteria]['matriks']);
-                    foreach ($dt[$namakriteria]['matriks'] as $mt) {
-                        // dd($data[0][$namakriteria]['selisih']);
-                        if($mt > 0 && $data[0][$namakriteria]['selisih'] > 0) {
-                            $data[0][$namakriteria]['normalisasi'][] = $mt / $data[0][$namakriteria]['selisih'];
-                        }else {
-                            $data[0][$namakriteria]['normalisasi'][] = 0;
-                        }
-
-                    }
-                }
-
-            }
-            dd($data);
-
-
-
-            $arrToko = [];
+            $arrToko[] = [
+                'namatoko' => $toko->namatoko,
+                'data' => $arrLaptop,
+            ];
 
         }
-        dd($ArrLaptop);
+        dd($arrToko);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function cari(Request $request)
     {
@@ -278,12 +284,24 @@ class indexC extends Controller
                     // dd($namakriteria);
                     ${"urutnilai_$namakriteria"}[] = (int)($harga2->ket);
                     rsort(${"urutnilai_$namakriteria"});
+
+
                 }
+                $data[] =[
+                    'namakriteria' => $k->namakriteria,
+                    'typedata' => $namakriteria,
+                    'nilai' => ${"urutnilai_$namakriteria"},
+                ];
+                // $data[] = [
+                //     'nilai' => ${"urutnilai_$namakriteria"},
+                // ];
             }
 
 
 
         }
+        // dd($data);
+        // dd($data);
 
 
 
@@ -296,56 +314,108 @@ class indexC extends Controller
 
             $laptop = perumahanM::where('idtoko', $instansi_->idtoko)->get();
 
+            // dd($laptop->toArray());
             $ipr = 0;
             foreach ($laptop as $laptop_) {
                 $namalaptop = str_replace(" ", "", strtolower($laptop_->namalaptop));
                 $ipr++;
                 // dd($ipr++);
                 //---------------------------------------------
-                $kriteria = kriteriaM::orderBy('ket', 'DESC');
+                $kriteria = kriteriaM::orderBy('idkriteria', 'asc');
 
 
-                $tinggi = 30000000;
+
+                // $ii = 1;
+                $tampung = [];
+                $noooo = 1;
+                // dd($kriteria->get()->toArray());
                 foreach ($kriteria->get() as $k) {
                     $idkriteria = $k->idkriteria;
                     $namakriteria = str_replace(" ", "", strtolower($k->namakriteria));
                     $typedata = $k->typedata;
                     $ket = $k->ket;
-                    dd($tinggi);
+
+                    // if($ii ==2) {
+                    //     dd(${"urutnilai_$namakriteria"});
+                    // }
+                    // $ii++;
+
+                    // ${$namakriteria}[] =  empty(nilaiM::where('ket', ((string)$item))->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
+                    // ${"dinamis_$namakriteria"}++;
+
+                    // $k->typedata === 'angka'
+
+                    // (int)$request->$namakriteria)
+
+                    // $laptop_->$namakriteria < $tinggi
+
+                    // $item
+
+                    //${"dinamis_$namakriteria"} == 0
+                    // dd($tinggi);
+                    $tinggi = 30000000;
                     if($ket == 'dinamis') {
                         ${"dinamis_$namakriteria"} = 0;
-                        foreach (${"urutnilai_$namakriteria"} as $item) {
-                            // dd($laptop_->$namakriteria);
-                            // if(($laptop_->$namakriteria > $item && ((int)$request->$namakriteria) >= $laptop_->$namakriteria) && ${"dinamis_$namakriteria"} == 0) {
-                            //     ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
-                            //     ${"dinamis_$namakriteria"}++;
-                            // }
+
+                        rsort(${"urutnilai_$namakriteria"});
+                        $datano = 1;
+
+                        if(${"dinamis_$namakriteria"} === 0 ){
 
 
-                            if(${"dinamis_$namakriteria"} == 0){
+                            if($k->typedata === 'kurensi'){
 
-                                if(((int)$request->$namakriteria) > $item) {
-                                    if($laptop_->$namakriteria > $item && $laptop_->$namakriteria < $tinggi){
-
-                                        ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
-                                        ${"dinamis_$namakriteria"}++;
-                                    }else{
-                                        ${$namakriteria}[] =  0;
-                                        ${"dinamis_$namakriteria"}++;
+                                foreach (${"urutnilai_$namakriteria"} as $item) {
+                                    $cari = (int)$request->$namakriteria;
+                                    $ket = (int)$item;
+                                    $ketLaptop = (int)$laptop_->$namakriteria;
+                                    if($cari > $ket) {
+                                        if($ketLaptop > $ket && $ketLaptop <= $tinggi) {
+                                            ${$namakriteria}[] =  empty(nilaiM::where('ket', ((string)$item))->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
+                                            ${"dinamis_$namakriteria"}++;
+                                        }
                                     }
-                                }elseif(((int)$request->$namakriteria) < $item && $laptop_->$namakriteria > $item){
-                                    ${$namakriteria}[] =  0;
-                                        ${"dinamis_$namakriteria"}++;
+
+                                    $tinggi = $item;
                                 }
 
-                                $tinggi = $item;
+
+
+                            }else if($k->typedata === 'angka') {
+                                foreach (${"urutnilai_$namakriteria"} as $item) {
+                                    $cari = (int)$request->$namakriteria;
+                                    $ket = (int)$item;
+                                    $ketLaptop = (int)$laptop_->$namakriteria;
+
+                                    if($cari >= $ket) {
+                                        if($ketLaptop >= $ket && $ketLaptop < $tinggi && ($ketLaptop <= $cari)) {
+
+                                            ${$namakriteria}[] =  empty(nilaiM::where('ket', $item)->first()->nilai)?0:nilaiM::where('ket', $item)->first()->nilai;
+                                            ${"dinamis_$namakriteria"}++;
+                                        }
+                                    }
+                                    $tinggi = $item;
+                                }
+                            }
+
+                            // if($namakriteria == 'ukuranlayar') {
+                            //     dd($request->$namakriteria);
+                            // }
+
+                            if(${"dinamis_$namakriteria"} === 0 ){
+                                ${$namakriteria}[] = 0;
                             }
 
 
+
                         }
-                        if(${"dinamis_$namakriteria"} === 0) {
-                            ${$namakriteria}[] = 0;
-                        }
+
+
+
+
+
+
+
                     }else if($ket == 'statis') {
                         if($laptop_->$namakriteria == $request->$namakriteria) {
                             ${$namakriteria}[] = empty(nilaiM::where('idnilai', $laptop_->$namakriteria)->first()->nilai)?0:nilaiM::where('idnilai', $laptop_->$namakriteria)->first()->nilai;
@@ -356,6 +426,8 @@ class indexC extends Controller
 
 
                 }
+                // dd($data2);
+                // dd($memorylaptop);
 
                 //DATA INSTANSI
                 $dataToko[$index]['namatoko'] = $instansi_->namatoko;
@@ -388,6 +460,8 @@ class indexC extends Controller
 
                 $index++;
             }
+
+            // dd($memorylaptop);
             $penampungRumah[] = $ipr;
             $ipr =0;
         }

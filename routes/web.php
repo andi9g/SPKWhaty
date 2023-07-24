@@ -41,6 +41,8 @@ Route::middleware(['GerbangAdmin'])->group(function () {
     //home
     Route::get('home', 'homeC@index');
 
+    Route::resource('satuan', 'satuanC');
+
     //kriteria
     Route::get('kriteria', 'konfigurasiC@kriteria');
     Route::post('kriteria/tambah', 'konfigurasiC@tambahkriteria')->name('tambah.kriteria');

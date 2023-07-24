@@ -26,18 +26,18 @@ class Spk extends Migration
 
                 'namakriteria' => 'Memory Laptop',
                 'bobot' => 0.15,
-                'typedata' => 'huruf',
-                'ket' => 'statis',
+                'typedata' => 'angka',
+                'ket' => 'dinamis',
             ], [
                 'namakriteria' =>'Penyimpanan Laptop',
                 'bobot' => 0.15,
-                'typedata' => 'huruf',
-                'ket' => 'statis',
+                'typedata' => 'angka',
+                'ket' => 'dinamis',
             ], [
                 'namakriteria' =>'Ukuran Layar',
                 'bobot' => 0.2,
-                'typedata' => 'huruf',
-                'ket' => 'statis',
+                'typedata' => 'angka',
+                'ket' => 'dinamis',
             ], [
                 'namakriteria' =>'Kondisi',
                 'bobot' => 0.1,
@@ -110,6 +110,11 @@ class Spk extends Migration
             $table->Integer('idtoko');
             $table->String('namalaptop');
             $table->String('gambar');
+            $table->timestamps();
+        });
+        Schema::create('satuan', function (Blueprint $table) {
+            $table->bigIncrements('idsatuan');
+            $table->string('namasatuan');
             $table->timestamps();
         });
 
